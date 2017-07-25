@@ -2,14 +2,14 @@ require 'rspec'
 require_relative 'car_wash'
 
 describe Truck do
-		before { @truck = Truck.new(false, 12314)  }
-		before { @repeat_truck = Truck.new(true, 12314)  }
-		before { @muddy_truck = Truck.new(false, 12314, true)  }
-		before { @repeat_muddy_truck = Truck.new(true, 12314, true)  }
-		before { @open_bed_truck = Truck.new(false, 12314, false, true)  }
-		before { @muddy_open_bed_truck = Truck.new(false, 12314, true, true)  }
-		before { @open_bed_truck = Truck.new(false, 12314, true, true)  }
-		before { @stolen_truck = Truck.new(false, 1111111)  }
+	before { @truck = Truck.new(false, 12314)  }
+	before { @repeat_truck = Truck.new(true, 12314)  }
+	before { @muddy_truck = Truck.new(false, 12314, true)  }
+	before { @repeat_muddy_truck = Truck.new(true, 12314, true)  }
+	before { @open_bed_truck = Truck.new(false, 12314, false, true)  }
+	before { @muddy_open_bed_truck = Truck.new(false, 12314, true, true)  }
+	before { @open_bed_truck = Truck.new(false, 12314, true, true)  }
+	before { @stolen_truck = Truck.new(false, 1111111)  }
 
 	describe "creation" do
 		it "is a class of Truck" do
@@ -17,7 +17,7 @@ describe Truck do
 		end
 
 		it "class has Automobile as ancestor" do
-			@truck.class.ancestors.include? Truck
+			@truck.class.ancestors.include? Automobile
 		end
 
 		it "has attributes we set" do
@@ -61,6 +61,11 @@ describe Truck do
 		it "legal car, bed closed, muddy truck, repeat visit" do
 			expect(@repeat_muddy_truck.outcome).to eq(6)
 		end
+		it "repeat customers update price correctly" do
+			expect(@truck.outcome).to eq(10)
+			@truck.repeat = true
+			expect(@truck.outcome).to eq(5)
+		end
 	end
 
 	describe "rejected trucks" do
@@ -74,9 +79,9 @@ describe Truck do
 end
 
 describe Car do
-		before { @car = Car.new(false, 12314)  }
-		before { @repeat_car = Car.new(true, 12314)  }
-		before { @stolen_car = Car.new(false, 1111111)  }
+	before { @car = Car.new(false, 12314)  }
+	before { @repeat_car = Car.new(true, 12314)  }
+	before { @stolen_car = Car.new(false, 1111111)  }
 
 	describe "creation" do
 		it "is a class of Car" do
@@ -84,7 +89,7 @@ describe Car do
 		end
 
 		it "class has Automobile as ancestor" do
-			@car.class.ancestors.include? Truck
+			@car.class.ancestors.include? Automobile
 		end
 
 		it "has attributes we set" do
@@ -97,12 +102,17 @@ describe Car do
 		end
 	end
 
-	describe Truck, "cost of cleaning" do
+	describe "cost of cleaning" do
 		it "legal car, bed closed, no mud, first time visit" do
 			expect(@car.outcome).to eq(5)
 		end
 		it "legal car, bed closed, no mud, repeat visit" do
 			expect(@repeat_car.outcome).to eq(2.5)
+		end
+		it "repeat customers update price correctly" do
+			expect(@car.outcome).to eq(5)
+			@car.repeat = true
+			expect(@car.outcome).to eq(2.5)
 		end
 	end
 
